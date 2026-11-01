@@ -1,0 +1,22 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+/// Global status chips (table, detail, anywhere mat-chip is used).
+.mat-mdc-chip.app-status-chip {
+  --mdc-chip-container-height: 28px;
+  --mdc-chip-outline-width: 0;
+  --mdc-chip-outline-color: transparent;
+  border-radius: 999px;
+  border: none;
+  box-shadow: none;
+
+  .mdc-evolution-chip__cell--primary {
+    border: none;
+  }
+
+  @each $status, $_ in vars.$application-status-colors {
+    &.app-status-chip--#{$status} {
+      @include mixins.status-chip($status);
+    }
+  }
+}

@@ -1,0 +1,11 @@
+@use '../../abstracts' as *;
+
+@mixin dashboard() {
+  .app-dashboard {
+    .app-dashboard__actions {
+      @include respond-to(md) {
+        text-align: right;
+      }
+    }
+  }
+}

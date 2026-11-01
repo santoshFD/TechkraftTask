@@ -1,0 +1,48 @@
+@use 'sass:map';
+@use 'sass:math';
+@use './variables' as vars;
+
+/// Returns a spacing value from the scale (e.g. space(3) → 1rem).
+@function space($step) {
+  @if not map.has-key(vars.$spacing-scale, $step) {
+    @error 'Unknown spacing step `#{$step}`.';
+  }
+  @return map.get(vars.$spacing-scale, $step);
+}
+
+/// Returns a border-radius token.
+@function radius($size) {
+  @if not map.has-key(vars.$radius-scale, $size) {
+    @error 'Unknown radius `#{$size}`.';
+  }
+  @return map.get(vars.$radius-scale, $size);
+}
+
+/// Returns a font-size token.
+@function font-size($size) {
+  @if not map.has-key(vars.$font-sizes, $size) {
+    @error 'Unknown font size `#{$size}`.';
+  }
+  @return map.get(vars.$font-sizes, $size);
+}
+
+/// Converts px to rem (assumes 16px root).
+@function rem($px, $base: 16) {
+  @return math.div($px, $base) * 1rem;
+}
+
+/// Semantic color for application workflow status chips.
+@function application-status-color($status) {
+  @if not map.has-key(vars.$application-status-colors, $status) {
+    @return map.get(vars.$application-status-colors, 'DRAFT');
+  }
+  @return map.get(vars.$application-status-colors, $status);
+}
+
+/// Z-index layer helper.
+@function z($layer) {
+  @if not map.has-key(vars.$z-layers, $layer) {
+    @error 'Unknown z-layer `#{$layer}`.';
+  }
+  @return map.get(vars.$z-layers, $layer);
+}

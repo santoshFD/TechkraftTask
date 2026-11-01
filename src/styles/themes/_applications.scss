@@ -1,0 +1,19 @@
+@use 'sass:string';
+@use '../abstracts/variables' as vars;
+
+/// Exposes feature tokens as CSS variables for theming / dark mode extension.
+@mixin applications-theme() {
+  --app-color-primary: #0d6efd;
+  --app-color-danger: #dc3545;
+  --app-surface-bg: #ffffff;
+  --app-page-bg: #f6f8fb;
+  --app-text-muted: #6c757d;
+  --app-border-subtle: rgb(15 23 42 / 8%);
+  --app-link-color: var(--app-color-primary);
+  --app-table-stripe: rgb(15 23 42 / 2%);
+  --app-field-border: #cbd5e1;
+
+  @each $status, $color in vars.$application-status-colors {
+    --app-status-#{string.to-lower-case(#{$status})}: #{$color};
+  }
+}

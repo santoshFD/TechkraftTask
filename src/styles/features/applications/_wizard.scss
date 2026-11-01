@@ -1,0 +1,80 @@
+@use '../../abstracts' as *;
+
+@mixin wizard() {
+  .app-wizard {
+    .app-wizard__save-hint {
+      min-height: space(5);
+      font-size: font-size(sm);
+      color: var(--app-text-muted);
+
+      @include respond-to(lg) {
+        text-align: right;
+      }
+
+      &--error {
+        color: var(--app-color-danger);
+      }
+    }
+
+    mat-stepper,
+    .app-wizard-stepper {
+      background: transparent;
+    }
+
+    .app-wizard-step__error-icon {
+      width: 1.15rem;
+      height: 1.15rem;
+      font-size: 1.15rem;
+      color: #d32f2f;
+    }
+
+    .app-wizard-step-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 11rem;
+      line-height: 1.2;
+
+      &__title {
+        font-size: font-size(sm);
+        font-weight: 500;
+        color: #64748b;
+      }
+
+      &__error {
+        margin-top: 0.15rem;
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: #d32f2f;
+        white-space: normal;
+      }
+
+      &--error .app-wizard-step-label__title {
+        color: #d32f2f;
+      }
+    }
+
+    .app-wizard-stepper {
+      .mat-step-header .mat-step-icon-state-error {
+        background-color: transparent;
+        color: #d32f2f;
+      }
+
+      .mat-step-header .mat-step-label.mat-step-label-error {
+        color: #d32f2f;
+      }
+
+      // Hide Material's duplicate step error line; we render one message in matStepLabel.
+      .mat-step-header .mat-step-label .mat-step-text-label + .mat-step-optional,
+      .mat-step-header .mat-step-label-error .mat-step-text-label:not(:first-child) {
+        display: none;
+      }
+    }
+
+    .row.g-3 > form-text-field.app-form-field-host,
+    .row.g-3 > .col-12,
+    .row.g-3 > [class*='col-'] {
+      min-width: 0;
+    }
+  }
+}

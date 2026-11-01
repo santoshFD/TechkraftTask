@@ -1,0 +1,33 @@
+@use 'sass:map';
+@use 'themes/applications';
+@use 'components/status-chips';
+@use 'abstracts/variables' as vars;
+@use 'abstracts/functions' as fn;
+
+/// Theme tokens for applications screens (transparent page chrome — cards provide surfaces).
+.app-feature {
+  @include applications.applications-theme();
+  background: transparent;
+  width: 100%;
+}
+
+.app-feature .app-card-title,
+.app-feature .mat-mdc-card-title {
+  font-weight: map.get(vars.$font-weights, bold);
+  font-size: 1.0625rem;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.app-feature .app-section-title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: map.get(vars.$font-weights, bold);
+  color: #0f172a;
+}
+
+.app-feature .app-section-subtitle {
+  margin: 0.2rem 0 0.65rem;
+  font-size: fn.font-size(xs);
+  color: var(--app-text-muted);
+}

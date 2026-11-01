@@ -1,0 +1,66 @@
+// Design tokens — prefer CSS custom properties for runtime theming (see themes/_applications.scss).
+
+$app-prefix: 'app' !default;
+
+// Breakpoints align with Bootstrap 5 for predictable responsive behavior.
+$breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+) !default;
+
+$spacing-scale: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 1rem,
+  4: 1.5rem,
+  5: 2rem,
+  6: 3rem,
+) !default;
+
+$radius-scale: (
+  sm: 0.25rem,
+  md: 0.5rem,
+  lg: 0.75rem,
+  pill: 50rem,
+) !default;
+
+$font-sizes: (
+  xs: 0.75rem,
+  sm: 0.875rem,
+  md: 1rem,
+  lg: 1.25rem,
+  xl: 1.5rem,
+) !default;
+
+$font-weights: (
+  regular: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+) !default;
+
+$z-layers: (
+  base: 1,
+  sticky: 1020,
+  dropdown: 1030,
+  modal: 1050,
+) !default;
+
+// Merchant application status palette (semantic, not Material palette names).
+$application-status-colors: (
+  DRAFT: #475569,
+  SUBMITTED: #2563eb,
+  IN_REVIEW: #b45309,
+  APPROVED: #047857,
+  REJECTED: #b91c1c,
+) !default;
+
+$shadow-elevation-low: 0 1px 2px rgb(15 23 42 / 6%);
+$shadow-elevation-mid: 0 4px 12px rgb(15 23 42 / 8%);
+
+$transition-base: 160ms ease !default;

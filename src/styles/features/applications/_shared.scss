@@ -1,0 +1,116 @@
+@use 'sass:map';
+@use '../../abstracts' as *;
+
+@mixin shared() {
+  @include feature-host;
+  @include material-field-full;
+
+  .app-page {
+    @include feature-page-header;
+  }
+
+  .app-card-title,
+  .app-surface .mat-mdc-card-title {
+    font-weight: map.get($font-weights, bold);
+    font-size: 1.0625rem;
+    color: #0f172a;
+    letter-spacing: -0.01em;
+  }
+
+  .app-surface .mat-mdc-card-subtitle {
+    font-size: font-size(sm);
+    color: var(--app-text-muted);
+    font-weight: map.get($font-weights, regular);
+  }
+
+  .app-section-title {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: map.get($font-weights, bold);
+    color: #0f172a;
+  }
+
+  .app-section-subtitle {
+    margin: 0.2rem 0 0.65rem;
+    font-size: font-size(xs);
+    color: var(--app-text-muted);
+  }
+
+  .app-surface {
+    @include surface-card;
+
+    &--flush {
+      mat-card-content {
+        padding: 0;
+      }
+    }
+
+    &--filters {
+      margin-bottom: space(4);
+    }
+
+    & + .app-surface {
+      margin-top: 0;
+    }
+  }
+
+  .app-async-state {
+    @include async-state-panel;
+
+    &--column {
+      flex-direction: column;
+      align-items: flex-start;
+
+      @include respond-to(sm) {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    &--error {
+      color: var(--app-color-danger);
+    }
+  }
+
+  .app-table {
+    width: 100%;
+
+    a {
+      color: var(--app-link-color);
+      text-decoration: none;
+      font-weight: map.get($font-weights, medium);
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      @include focus-ring;
+    }
+
+    .mat-mdc-row:nth-child(even) {
+      background: var(--app-table-stripe);
+    }
+  }
+
+  .app-status-chip {
+    &--DRAFT {
+      @include status-chip(DRAFT);
+    }
+    &--SUBMITTED {
+      @include status-chip(SUBMITTED);
+    }
+    &--IN_REVIEW {
+      @include status-chip(IN_REVIEW);
+    }
+    &--APPROVED {
+      @include status-chip(APPROVED);
+    }
+    &--REJECTED {
+      @include status-chip(REJECTED);
+    }
+  }
+
+  :host ::ng-deep action-button.w-100 .action-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,17 @@
+@forward 'shared';
+@forward 'dashboard';
+@forward 'wizard';
+@forward 'detail';
+
+@use 'shared' as shared;
+@use 'dashboard' as dashboard;
+@use 'wizard' as wizard;
+@use 'detail' as detail;
+
+/// Compose all applications feature styles (for global bundle).
+@mixin all() {
+  @include shared.shared();
+  @include dashboard.dashboard();
+  @include wizard.wizard();
+  @include detail.detail();
+}

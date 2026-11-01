@@ -1,0 +1,42 @@
+@use 'sass:map';
+@use '../../abstracts' as *;
+
+@mixin detail() {
+  .app-detail {
+    .app-detail__back {
+      font-size: font-size(sm);
+      color: var(--app-link-color);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      @include focus-ring;
+    }
+
+    .app-detail__definition {
+      dt {
+        font-weight: map.get($font-weights, semibold);
+        color: var(--app-text-muted);
+      }
+
+      dd {
+        margin: 0;
+      }
+    }
+
+    .app-detail__risk-item {
+      border-bottom: 1px solid var(--app-border-subtle);
+      padding-block: space(2);
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    .app-detail__review {
+      margin-top: space(4);
+    }
+  }
+}
