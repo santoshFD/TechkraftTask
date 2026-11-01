@@ -1,0 +1,9 @@
+<mat-paginator
+  class="table-pagination border-top"
+  [length]="length()"
+  [pageIndex]="pageIndex()"
+  [pageSize]="pageSize()"
+  [pageSizeOptions]="pageSizeOptions()"
+  [attr.aria-label]="ariaLabel()"
+  (page)="onPage($event)"
+/>

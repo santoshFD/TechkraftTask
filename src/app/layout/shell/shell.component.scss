@@ -1,0 +1,27 @@
+.toolbar--brand {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: linear-gradient(90deg, #0d47a1 0%, #1565c0 55%, #1976d2 100%);
+  color: #fff;
+}
+
+.brand {
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.user-meta {
+  color: rgb(255 255 255 / 88%);
+  margin-right: 0.5rem;
+}
+
+.sign-out-btn {
+  border-color: rgb(255 255 255 / 70%) !important;
+  color: #fff !important;
+}
+
+.shell-main {
+  background: #eef2f7;
+  min-height: calc(100vh - 64px);
+}

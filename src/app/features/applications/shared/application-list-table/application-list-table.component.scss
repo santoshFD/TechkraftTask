@@ -1,0 +1,36 @@
+@use 'styles/features/applications/shared' as app-shared;
+
+@include app-shared.shared();
+
+.list-table-card {
+  background: #fff;
+}
+
+.list-table-card__filters {
+  padding: 0.85rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--app-border-subtle, rgb(15 23 42 / 8%));
+}
+
+.app-table {
+  .mat-sort-header-container {
+    align-items: center;
+  }
+
+  &__actions-header,
+  &__actions {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  &__action {
+    color: #1565c0;
+
+    .mat-icon {
+      font-size: 1.25rem;
+    }
+
+    &--danger {
+      color: #c62828;
+    }
+  }
+}

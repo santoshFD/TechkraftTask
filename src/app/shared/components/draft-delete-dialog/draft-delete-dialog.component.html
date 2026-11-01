@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Delete draft?</h2>
+<mat-dialog-content>
+  <p class="mb-0">
+    Delete <strong>{{ data.label }}</strong>? This cannot be undone.
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button mat-flat-button type="button" color="warn" (click)="confirm()">Delete draft</button>
+</mat-dialog-actions>

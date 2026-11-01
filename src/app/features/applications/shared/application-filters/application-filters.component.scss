@@ -1,0 +1,60 @@
+@use 'styles/features/applications/shared' as app-shared;
+@use 'styles/abstracts' as *;
+
+@include app-shared.shared();
+
+:host {
+  display: block;
+}
+
+.application-filters__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.application-filters__search-field {
+  flex: 1 1 18rem;
+  min-width: 16rem;
+  max-width: 28rem;
+}
+
+.application-filters__status-field {
+  flex: 0 1 11rem;
+  min-width: 10rem;
+  width: 11rem;
+}
+
+.application-filters__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  margin-left: auto;
+}
+
+.application-filters__clear {
+  margin-top: 0.15rem;
+  min-height: auto;
+  font-size: font-size(sm);
+}
+
+:host ::ng-deep .app-form-field--compact {
+  @include material-field-compact;
+}
+
+:host ::ng-deep .application-filters__search-field input.mat-mdc-input-element {
+  line-height: 1.5rem;
+  height: 1.5rem;
+  box-sizing: content-box;
+}
+
+:host ::ng-deep .application-filters__simulate .action-btn,
+:host ::ng-deep [filter-actions] .action-btn {
+  min-height: 2.25rem;
+  padding-inline: 0.85rem;
+  font-size: font-size(sm);
+}

@@ -1,0 +1,62 @@
+<div class="app-form-field-cell">
+  <mat-form-field appearance="outline" class="w-100 form-text-field" subscriptSizing="dynamic" hideRequiredMarker>
+    <mat-label>{{ label() }}</mat-label>
+
+    @switch (mask()) {
+      @case ('taxId') {
+        <input
+          matInput
+          appTaxIdMask
+          [formControlName]="controlName()"
+          [type]="inputType()"
+          [attr.inputmode]="inputMode() ?? null"
+          [attr.maxlength]="maxLength() ?? null"
+          [placeholder]="placeholder()"
+          [autocomplete]="autocomplete()"
+        />
+      }
+      @case ('phone') {
+        <input
+          matInput
+          appPhoneMask
+          [formControlName]="controlName()"
+          type="tel"
+          inputmode="tel"
+          [attr.maxlength]="maxLength() ?? null"
+          [placeholder]="placeholder()"
+          [autocomplete]="autocomplete()"
+        />
+      }
+      @case ('ssn') {
+        <input
+          matInput
+          appSsnMask
+          [formControlName]="controlName()"
+          inputmode="numeric"
+          [attr.maxlength]="maxLength() ?? null"
+          [placeholder]="placeholder()"
+          [autocomplete]="autocomplete()"
+        />
+      }
+      @default {
+        <input
+          matInput
+          [formControlName]="controlName()"
+          [type]="inputType()"
+          [attr.inputmode]="inputMode() ?? null"
+          [attr.maxlength]="maxLength() ?? null"
+          [placeholder]="placeholder()"
+          [autocomplete]="autocomplete()"
+        />
+      }
+    }
+
+    <mat-hint class="form-text-field__hint">&nbsp;</mat-hint>
+
+    @for (err of errors(); track err.key) {
+      @if (showError(err)) {
+        <mat-error>{{ err.message }}</mat-error>
+      }
+    }
+  </mat-form-field>
+</div>

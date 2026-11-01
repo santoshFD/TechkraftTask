@@ -1,0 +1,30 @@
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.action-btn__label {
+  line-height: 1.2;
+}
+
+:host ::ng-deep .action-btn--flat:not(:disabled) .action-btn__label {
+  color: #fff;
+}
+
+:host ::ng-deep .action-btn--flat:not(:disabled) .action-btn__spinner circle {
+  stroke: #fff;
+}
+
+:host ::ng-deep .action-btn--stroked:not(:disabled) .action-btn__label {
+  color: #1565c0;
+}
+
+:host ::ng-deep .action-btn--text:not(:disabled) .action-btn__label {
+  color: inherit;
+}
+
+:host ::ng-deep .action-btn:disabled .action-btn__label {
+  color: rgb(0 0 0 / 38%);
+}

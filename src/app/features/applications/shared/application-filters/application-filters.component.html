@@ -1,0 +1,54 @@
+<section class="application-filters" aria-label="Application filters">
+  <h3 class="app-section-title">Search &amp; filters</h3>
+
+  <div class="application-filters__toolbar">
+    <mat-form-field
+      appearance="outline"
+      class="application-filters__search-field app-form-field--compact"
+      subscriptSizing="dynamic"
+      hideRequiredMarker
+    >
+      <input
+        matInput
+        class="application-filters__search-input"
+        [formControl]="searchControl()"
+        placeholder="Search merchant name or application ID"
+        aria-label="Search applications"
+      />
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+      class="application-filters__status-field app-form-field--compact"
+      subscriptSizing="dynamic"
+    >
+      <mat-label>Status</mat-label>
+      <mat-select [formControl]="statusControl()">
+        <mat-option value="">All statuses</mat-option>
+        @for (status of statuses(); track status) {
+          <mat-option [value]="status">{{ status }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="application-filters__actions">
+      <action-button
+        variant="stroked"
+        color="primary"
+        type="button"
+        class="application-filters__simulate"
+        [loading]="simulatingExpiry()"
+        (pressed)="simulateExpiry.emit()"
+      >
+        Simulate token expiry
+      </action-button>
+      <ng-content select="[filter-actions]" />
+    </div>
+  </div>
+
+  @if (activeStatFilter() !== 'all') {
+    <button mat-button type="button" class="application-filters__clear px-0" (click)="clearStatFilter.emit()">
+      Clear status filter
+    </button>
+  }
+</section>

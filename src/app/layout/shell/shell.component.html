@@ -1,0 +1,23 @@
+<mat-toolbar class="toolbar toolbar--brand shadow-sm">
+  <div class="container-fluid d-flex align-items-center gap-2 py-0">
+    <a routerLink="/applications" class="brand text-decoration-none fw-semibold">
+      Merchant Portal
+    </a>
+    <span class="flex-grow-1"></span>
+    @if (auth.user(); as user) {
+      <span class="user-meta d-none d-sm-inline small">
+        {{ user.displayName }} · {{ user.role }}
+      </span>
+      <button mat-stroked-button type="button" class="sign-out-btn" (click)="signOut()">
+        @if (signingOut()) {
+          <mat-spinner diameter="18" />
+        } @else {
+          Sign out
+        }
+      </button>
+    }
+  </div>
+</mat-toolbar>
+<main class="shell-main container-fluid px-3 px-md-4 py-4">
+  <router-outlet />
+</main>

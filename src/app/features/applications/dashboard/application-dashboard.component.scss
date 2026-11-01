@@ -1,0 +1,5 @@
+@use 'styles/features/applications/shared' as app-shared;
+@use 'styles/features/applications/dashboard' as app-dashboard;
+
+@include app-shared.shared();
+@include app-dashboard.dashboard();

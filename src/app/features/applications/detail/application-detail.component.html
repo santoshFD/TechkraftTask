@@ -1,0 +1,219 @@
+<div class="app-feature app-detail">
+  <page-back-nav link="/applications" label="Back to applications" />
+
+  @if (loading()) {
+    <div class="app-async-state py-5" role="status">
+      <mat-spinner diameter="36" />
+      <span>Loading�</span>
+    </div>
+  } @else if (error()) {
+    <mat-card class="app-surface">
+      <mat-card-content class="app-async-state app-async-state--column app-async-state--error">
+        <p class="mb-0" role="alert">{{ error() }}</p>
+        <action-button
+          variant="flat"
+          color="primary"
+          type="button"
+          [loading]="retrying()"
+          (pressed)="load(true)"
+        >
+          Retry
+        </action-button>
+      </mat-card-content>
+    </mat-card>
+  } @else if (application(); as app) {
+    <header class="app-page row g-3 mb-4 align-items-start">
+      <div class="col-12 col-lg">
+        <h1 class="app-page__title h3">{{ app.business.legalName || 'Application' }}</h1>
+        <mat-chip class="app-status-chip app-status-chip--{{ app.status }}">{{ app.status }}</mat-chip>
+        <dl class="app-detail__meta row g-2 small text-muted mb-0 mt-2">
+          <dt class="col-auto">Created by</dt>
+          <dd class="col-auto">{{ app.createdByName }}</dd>
+          <dt class="col-auto">Reviewer</dt>
+          <dd class="col-auto">{{ app.assignedReviewerName || 'Not assigned' }}</dd>
+        </dl>
+        @if (reviewerContextLabel(); as reviewerMsg) {
+          <p class="app-detail__hint small mb-0 mt-2">{{ reviewerMsg }}</p>
+        }
+        @if (canEditDraft(app)) {
+          <p class="app-detail__hint text-muted small mb-0 mt-2">
+            This page is read-only. Open the editor to change draft fields.
+          </p>
+        }
+      </div>
+      @if (canEditDraft(app)) {
+        <div class="col-12 col-lg-auto d-flex flex-wrap gap-2 justify-content-lg-end">
+          <action-button variant="flat" color="primary" type="button" (pressed)="openEditor(app.id)">
+            Edit draft
+          </action-button>
+        </div>
+      }
+    </header>
+
+    <mat-card class="app-surface mb-4">
+      <mat-card-content class="pt-2">
+        <mat-accordion multi>
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Business</mat-panel-title>
+            </mat-expansion-panel-header>
+            <dl class="app-detail__definition row g-2 mb-0">
+              <dt class="col-sm-4">Legal name</dt>
+              <dd class="col-sm-8">{{ app.business.legalName }}</dd>
+              <dt class="col-sm-4">DBA</dt>
+              <dd class="col-sm-8">{{ app.business.dba || '�' }}</dd>
+              <dt class="col-sm-4">Tax ID</dt>
+              <dd class="col-sm-8">
+                <sensitive-field [value]="app.business.taxId" label="Tax ID" />
+              </dd>
+              <dt class="col-sm-4">MCC</dt>
+              <dd class="col-sm-8">{{ app.business.mcc }}</dd>
+              <dt class="col-sm-4">Monthly volume</dt>
+              <dd class="col-sm-8">{{ app.business.monthlyVolume ?? '�' }}</dd>
+            </dl>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Owner</mat-panel-title>
+            </mat-expansion-panel-header>
+            <dl class="app-detail__definition row g-2 mb-0">
+              <dt class="col-sm-4">Name</dt>
+              <dd class="col-sm-8">{{ app.owner.fullName }}</dd>
+              <dt class="col-sm-4">Email</dt>
+              <dd class="col-sm-8">{{ app.owner.email }}</dd>
+              <dt class="col-sm-4">Phone</dt>
+              <dd class="col-sm-8">{{ app.owner.phone }}</dd>
+              <dt class="col-sm-4">SSN</dt>
+              <dd class="col-sm-8">
+                <sensitive-field [value]="app.owner.ssn" label="SSN" />
+              </dd>
+            </dl>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Banking</mat-panel-title>
+            </mat-expansion-panel-header>
+            <dl class="app-detail__definition row g-2 mb-0">
+              <dt class="col-sm-4">Account holder</dt>
+              <dd class="col-sm-8">{{ app.banking.accountHolder }}</dd>
+              <dt class="col-sm-4">Routing</dt>
+              <dd class="col-sm-8">
+                <sensitive-field [value]="app.banking.routingNumber" label="Routing number" />
+              </dd>
+              <dt class="col-sm-4">Account</dt>
+              <dd class="col-sm-8">
+                <sensitive-field [value]="app.banking.accountNumber" label="Account number" />
+              </dd>
+            </dl>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Risk history</mat-panel-title>
+            </mat-expansion-panel-header>
+            @if (app.riskHistory.length === 0) {
+              <p class="mb-0">No risk events yet.</p>
+            } @else {
+              <ul class="list-unstyled mb-0">
+                @for (event of app.riskHistory; track event.id) {
+                  <li class="app-detail__risk-item">
+                    <strong>{{ event.level }}</strong> � {{ event.summary }}
+                    <div class="text-muted small">{{ event.actorName }} � {{ event.at | date: 'medium' }}</div>
+                  </li>
+                }
+              </ul>
+            }
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+
+    @if (showAssignmentPanel()) {
+      <mat-card class="app-surface app-detail__assignment mb-4">
+        <mat-card-header>
+          <mat-card-title>Reviewer assignment</mat-card-title>
+          <mat-card-subtitle>Admin — assign or change the reviewer for this application.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row g-3 align-items-end">
+            <div class="col-12 col-md-8">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Reviewer</mat-label>
+                <mat-select [formControl]="assignmentControl">
+                  <mat-option value="">Unassigned</mat-option>
+                  @for (reviewer of reviewers(); track reviewer.id) {
+                    <mat-option [value]="reviewer.id">{{ reviewer.displayName }} ({{ reviewer.email }})</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-md-4">
+              <action-button
+                variant="flat"
+                color="primary"
+                type="button"
+                class="w-100"
+                [loading]="assigning()"
+                (pressed)="saveAssignment()"
+              >
+                Save assignment
+              </action-button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+
+    @if (showReviewPanel()) {
+      <mat-card class="app-surface app-detail__review">
+        <mat-card-header>
+          <mat-card-title>Reviewer decision</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Decision</mat-label>
+                  <mat-select formControlName="decision">
+                    <mat-option value="APPROVE">Approve</mat-option>
+                    <mat-option value="REJECT">Reject</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Risk level</mat-label>
+                  <mat-select formControlName="riskLevel">
+                    <mat-option value="LOW">Low</mat-option>
+                    <mat-option value="MEDIUM">Medium</mat-option>
+                    <mat-option value="HIGH">High</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Notes</mat-label>
+                  <textarea matInput rows="3" formControlName="notes"></textarea>
+                </mat-form-field>
+              </div>
+              <div class="col-12">
+                <action-button
+                  variant="flat"
+                  color="primary"
+                  type="submit"
+                  [loading]="reviewing()"
+                  [disabled]="reviewForm.invalid"
+                >
+                  Record decision
+                </action-button>
+              </div>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    }
+  }
+</div>

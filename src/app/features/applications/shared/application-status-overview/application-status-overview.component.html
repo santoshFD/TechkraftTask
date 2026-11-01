@@ -1,0 +1,26 @@
+<mat-card class="status-overview-card app-surface">
+  <mat-card-content>
+    <div class="row g-3">
+      @for (item of items(stats()); track item.key) {
+        <div class="col-12 col-md-4">
+          <button
+            type="button"
+            class="status-tile w-100"
+            [class.status-tile--active]="activeFilter() === item.key"
+            [ngClass]="item.toneClass"
+            (click)="select(item.key)"
+          >
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div class="text-start">
+                <p class="status-tile__value mb-0">{{ item.value }}</p>
+                <p class="status-tile__label mb-0">{{ item.label }}</p>
+                <p class="status-tile__hint mb-0">{{ item.hint }}</p>
+              </div>
+              <mat-icon aria-hidden="true">{{ item.icon }}</mat-icon>
+            </div>
+          </button>
+        </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

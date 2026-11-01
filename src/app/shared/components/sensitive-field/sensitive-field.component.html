@@ -1,0 +1,12 @@
+<span class="value" [attr.aria-label]="label()">{{ displayValue() }}</span>
+@if (canReveal()) {
+  <button
+    mat-icon-button
+    type="button"
+    (click)="toggle()"
+    [attr.aria-pressed]="revealed()"
+    [attr.aria-label]="revealed() ? 'Hide ' + label() : 'Reveal ' + label()"
+  >
+    <mat-icon>{{ revealed() ? 'visibility_off' : 'visibility' }}</mat-icon>
+  </button>
+}

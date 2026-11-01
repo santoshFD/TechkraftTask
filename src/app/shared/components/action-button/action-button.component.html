@@ -1,0 +1,14 @@
+<button
+  mat-button
+  [matButton]="matAppearance()"
+  [class]="hostClass()"
+  [color]="color()"
+  [type]="type()"
+  [disabled]="disabled() || loading()"
+  (click)="onClick($event)"
+>
+  @if (loading()) {
+    <mat-spinner class="action-btn__spinner" diameter="18" />
+  }
+  <span class="action-btn__label"><ng-content /></span>
+</button>

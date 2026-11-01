@@ -1,0 +1,5 @@
+@use 'styles/features/applications/shared' as app-shared;
+@use 'styles/features/applications/wizard' as app-wizard;
+
+@include app-shared.shared();
+@include app-wizard.wizard();

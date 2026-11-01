@@ -1,0 +1,136 @@
+<div class="app-feature app-wizard">
+  <page-back-nav [link]="['/applications']" label="Back to applications" />
+
+  @if (loading()) {
+    <div class="app-async-state py-5" role="status">
+      <mat-spinner diameter="36" />
+      <span>Loading draft�</span>
+    </div>
+  } @else if (loadError()) {
+    <mat-card class="app-surface">
+      <mat-card-content class="app-async-state app-async-state--column app-async-state--error">
+        <p class="mb-0" role="alert">{{ loadError() }}</p>
+        <action-button
+          variant="flat"
+          color="primary"
+          type="button"
+          [loading]="reloading()"
+          (pressed)="reload()"
+        >
+          Retry
+        </action-button>
+      </mat-card-content>
+    </mat-card>
+  } @else if (reloading()) {
+    <div class="app-async-state py-5" role="status">
+      <mat-spinner diameter="36" />
+      <span>Retrying�</span>
+    </div>
+  } @else if (form()) {
+    <header class="app-page row g-3 mb-3 align-items-start">
+      <div class="col-12 col-lg">
+        <h1 class="app-page__title h3">Merchant application</h1>
+        <p class="app-page__subtitle">Draft auto-saves after you enter application details</p>
+      </div>
+      <div
+        class="col-12 col-lg-auto app-wizard__save-hint d-flex align-items-center gap-2 justify-content-lg-end"
+        aria-live="polite"
+      >
+        @if (saveState() === 'saving') {
+          <mat-spinner diameter="20" />
+          <span>Saving draft�</span>
+        } @else if (saveState() === 'saved') {
+          <span>Draft saved {{ lastSavedAt() | date: 'shortTime' }}</span>
+        } @else if (saveState() === 'error') {
+          <span class="app-wizard__save-hint--error">Auto-save failed � changes kept locally</span>
+        }
+      </div>
+    </header>
+
+    <mat-card class="app-surface">
+      <mat-card-content class="pt-3">
+        <mat-stepper class="app-wizard-stepper" linear="true" #stepper>
+          <ng-template matStepperIcon="error">
+            <mat-icon class="app-wizard-step__error-icon" aria-hidden="true">warning</mat-icon>
+          </ng-template>
+
+          <mat-step [stepControl]="stepControl('business')" [hasError]="stepHasError('business')">
+            <ng-template matStepLabel>
+              <div class="app-wizard-step-label" [class.app-wizard-step-label--error]="stepHasError('business')">
+                <span class="app-wizard-step-label__title">Business</span>
+                @if (stepHasError('business')) {
+                  <span class="app-wizard-step-label__error">{{ incompleteStepLabel }}</span>
+                }
+              </div>
+            </ng-template>
+            @if (businessStep(); as business) {
+              <application-form-builder
+                section="business"
+                [stepForm]="business"
+                [showValidation]="stepShowValidation('business')"
+              />
+            }
+            <button mat-button matStepperNext type="button" (click)="onStepNext('business')">Next</button>
+          </mat-step>
+
+          <mat-step [stepControl]="stepControl('owner')" [hasError]="stepHasError('owner')">
+            <ng-template matStepLabel>
+              <div class="app-wizard-step-label" [class.app-wizard-step-label--error]="stepHasError('owner')">
+                <span class="app-wizard-step-label__title">Owner</span>
+                @if (stepHasError('owner')) {
+                  <span class="app-wizard-step-label__error">{{ incompleteStepLabel }}</span>
+                }
+              </div>
+            </ng-template>
+            @if (ownerStep(); as owner) {
+              <application-form-builder
+                section="owner"
+                [stepForm]="owner"
+                [showValidation]="stepShowValidation('owner')"
+              />
+            }
+            <button mat-button matStepperPrevious type="button">Back</button>
+            <button mat-button matStepperNext type="button" (click)="onStepNext('owner')">Next</button>
+          </mat-step>
+
+          <mat-step [stepControl]="stepControl('banking')" [hasError]="stepHasError('banking')">
+            <ng-template matStepLabel>
+              <div class="app-wizard-step-label" [class.app-wizard-step-label--error]="stepHasError('banking')">
+                <span class="app-wizard-step-label__title">Banking</span>
+                @if (stepHasError('banking')) {
+                  <span class="app-wizard-step-label__error">{{ incompleteStepLabel }}</span>
+                }
+              </div>
+            </ng-template>
+            @if (bankingStep(); as banking) {
+              <application-form-builder
+                section="banking"
+                [stepForm]="banking"
+                [showValidation]="stepShowValidation('banking')"
+              />
+            }
+            <button mat-button matStepperPrevious type="button">Back</button>
+            <button mat-button matStepperNext type="button" (click)="onStepNext('banking')">Next</button>
+          </mat-step>
+
+          <mat-step label="Review">
+            <p class="my-3">Confirm details before submission. You can still edit while status is DRAFT.</p>
+            @if (submitError()) {
+              <p class="text-danger small mb-2" role="alert">{{ submitError() }}</p>
+            }
+            <button mat-button matStepperPrevious type="button">Back</button>
+            <action-button
+              variant="flat"
+              color="primary"
+              type="button"
+              [loading]="submitting()"
+              (pressed)="submit()"
+            >
+              Submit application
+            </action-button>
+          </mat-step>
+        </mat-stepper>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

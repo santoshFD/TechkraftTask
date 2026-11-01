@@ -1,0 +1,66 @@
+<div class="app-feature app-dashboard">
+  @if (heading(); as h) {
+    <header class="app-page mb-3">
+      <h1 class="app-page__title h3 mb-1">{{ h.title }}</h1>
+      <p class="app-page__subtitle mb-0">{{ h.subtitle }}</p>
+    </header>
+  }
+
+  @if (stats(); as s) {
+    <application-status-overview
+      [stats]="s"
+      [activeFilter]="activeStatFilter()"
+      [viewRole]="listViewRole()"
+      (filterChange)="applyStatFilter($event)"
+    />
+  }
+
+  <application-list-table
+    [items]="items()"
+    [loading]="loading()"
+    [error]="error()"
+    [retrying]="retrying()"
+    [total]="total()"
+    [pageIndex]="page()"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="pageSizeOptions"
+    [sortActive]="sortBy()"
+    [sortDirection]="sortDirection()"
+    [listViewRole]="listViewRole()"
+    (retry)="load(true)"
+    (pageChange)="onPage($event)"
+    (sortChange)="onSort($event)"
+    (deleteDraft)="deleteDraft($event)"
+    [deletingId]="deletingId()"
+  >
+    <application-filters
+      tableFilters
+      [searchControl]="searchControl"
+      [statusControl]="statusControl"
+      [statuses]="statuses"
+      [simulatingExpiry]="simulatingExpiry()"
+      [activeStatFilter]="activeStatFilter()"
+      (simulateExpiry)="simulateExpiry()"
+      (clearStatFilter)="applyStatFilter('all')"
+    >
+      @if (canCreate()) {
+        <action-button
+          filter-actions
+          variant="flat"
+          color="primary"
+          type="button"
+          [loading]="creating()"
+          (pressed)="createApplication()"
+        >
+          New application
+        </action-button>
+      }
+      @if (createError()) {
+        <p class="text-danger small mb-0 mt-2" role="alert">{{ createError() }}</p>
+      }
+      @if (deleteError()) {
+        <p class="text-danger small mb-0 mt-2" role="alert">{{ deleteError() }}</p>
+      }
+    </application-filters>
+  </application-list-table>
+</div>

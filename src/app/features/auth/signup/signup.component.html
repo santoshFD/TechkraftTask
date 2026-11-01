@@ -1,0 +1,116 @@
+<div class="auth-page">
+  <mat-card class="auth-card">
+    <div class="auth-card__layout">
+      <aside class="auth-card__hero">
+        <div class="auth-card__hero-bg" role="img" aria-label="Merchant payments illustration"></div>
+        <div class="auth-card__hero-content">
+          <span class="auth-card__badge">Get started</span>
+          <h2 class="auth-card__hero-title">Join as sales</h2>
+          <p class="auth-card__hero-lead">Create merchant applications, save drafts, and submit for review.</p>
+          <ul class="auth-card__hero-list">
+            <li>One account per email</li>
+            <li>Minimum 8-character password</li>
+            <li>Same portal as demo users</li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="auth-card__main">
+        <header class="auth-card__main-header">
+          <h1>Create account</h1>
+          <p>Register to submit and track merchant onboarding applications.</p>
+        </header>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form" novalidate>
+          <mat-form-field
+            appearance="outline"
+            class="auth-field"
+            subscriptSizing="dynamic"
+            [class.app-field--engaged]="displayName.touched || displayName.dirty"
+          >
+            <mat-label>Full name</mat-label>
+            <input matInput formControlName="displayName" autocomplete="name" />
+            @if (displayName.invalid && (displayName.dirty || displayName.touched || submitted())) {
+              <mat-error>
+                @if (displayName.hasError('required')) {
+                  Name is required.
+                } @else if (displayName.hasError('minlength')) {
+                  Name must be at least 2 characters.
+                }
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="auth-field"
+            subscriptSizing="dynamic"
+            [class.app-field--engaged]="email.touched || email.dirty"
+          >
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" autocomplete="email" />
+            @if (email.invalid && (email.dirty || email.touched || submitted())) {
+              <mat-error>
+                @if (email.hasError('required')) {
+                  Email is required.
+                } @else if (email.hasError('email')) {
+                  Enter a valid email address.
+                }
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="auth-field"
+            subscriptSizing="dynamic"
+            [class.app-field--engaged]="password.touched || password.dirty"
+          >
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" autocomplete="new-password" />
+            @if (password.invalid && (password.dirty || password.touched || submitted())) {
+              <mat-error>
+                @if (password.hasError('required')) {
+                  Password is required.
+                } @else if (password.hasError('minlength')) {
+                  Use at least 8 characters.
+                }
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="auth-field"
+            subscriptSizing="dynamic"
+            [class.app-field--engaged]="confirmPassword.touched || confirmPassword.dirty"
+          >
+            <mat-label>Confirm password</mat-label>
+            <input matInput type="password" formControlName="confirmPassword" autocomplete="new-password" />
+            @if (
+              (confirmPassword.dirty || confirmPassword.touched || submitted()) &&
+              form.hasError('passwordMismatch')
+            ) {
+              <mat-error>Passwords do not match.</mat-error>
+            } @else if (confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched || submitted())) {
+              <mat-error>Confirm your password.</mat-error>
+            }
+          </mat-form-field>
+
+          @if (error()) {
+            <p class="auth-alert" role="alert">{{ error() }}</p>
+          }
+
+          <action-button variant="flat" color="primary" type="submit" class="auth-primary-btn" [loading]="loading()">
+            Sign up
+          </action-button>
+        </form>
+
+        <p class="auth-switch">
+          Already have an account?
+          <a routerLink="/login">Sign in</a>
+        </p>
+      </main>
+    </div>
+  </mat-card>
+</div>

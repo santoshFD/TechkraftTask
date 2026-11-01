@@ -1,0 +1,9 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.value {
+  font-family: var(--app-mono, ui-monospace, monospace);
+}

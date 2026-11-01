@@ -1,0 +1,99 @@
+<div class="dynamic-form">
+  @if (config().title) {
+    <h3 class="dynamic-form__title">{{ config().title }}</h3>
+  }
+  @if (config().description) {
+    <p class="dynamic-form__description">{{ config().description }}</p>
+  }
+
+  <div class="row g-3 my-3">
+    @for (field of fields(); track field.id) {
+      @if (isVisible(field)) {
+        <div [class]="colClass(field)" class="app-dynamic-field-cell">
+          <mat-form-field
+            appearance="outline"
+            class="w-100 app-dynamic-field"
+            subscriptSizing="dynamic"
+            [class.app-field--engaged]="fieldEngaged(field)"
+            [class.app-field--show-error]="showFieldError(field)"
+          >
+            <mat-label>{{ field.label }}</mat-label>
+
+            @switch (field.type) {
+              @case ('textarea') {
+                <textarea
+                  matInput
+                  [formControlName]="field.name"
+                  [placeholder]="field.placeholder ?? ''"
+                  [readonly]="field.isReadOnly ?? false"
+                  rows="3"
+                ></textarea>
+              }
+              @case ('select') {
+                <mat-select [formControlName]="field.name">
+                  @for (opt of selectOptions(field); track $index) {
+                    <mat-option [value]="opt">{{ opt }}</mat-option>
+                  }
+                </mat-select>
+              }
+              @default {
+                @if (field.mask === 'taxId') {
+                  <input
+                    matInput
+                    appTaxIdMask
+                    [formControlName]="field.name"
+                    [attr.inputmode]="field.inputMode ?? 'numeric'"
+                    [attr.maxlength]="field.maxLength ?? null"
+                    [placeholder]="field.placeholder ?? ''"
+                    [autocomplete]="field.autocomplete ?? 'off'"
+                    [readonly]="field.isReadOnly ?? false"
+                  />
+                } @else if (field.mask === 'phone') {
+                  <input
+                    matInput
+                    appPhoneMask
+                    [formControlName]="field.name"
+                    type="tel"
+                    inputmode="tel"
+                    [attr.maxlength]="field.maxLength ?? null"
+                    [placeholder]="field.placeholder ?? ''"
+                    [autocomplete]="field.autocomplete ?? 'tel'"
+                    [readonly]="field.isReadOnly ?? false"
+                  />
+                } @else if (field.mask === 'ssn') {
+                  <input
+                    matInput
+                    appSsnMask
+                    [formControlName]="field.name"
+                    inputmode="numeric"
+                    [attr.maxlength]="field.maxLength ?? null"
+                    [placeholder]="field.placeholder ?? ''"
+                    [autocomplete]="field.autocomplete ?? 'off'"
+                    [readonly]="field.isReadOnly ?? false"
+                  />
+                } @else {
+                  <input
+                    matInput
+                    [formControlName]="field.name"
+                    [type]="field.type === 'number' ? 'number' : field.type"
+                    [attr.inputmode]="field.inputMode ?? null"
+                    [attr.maxlength]="field.maxLength ?? null"
+                    [placeholder]="field.placeholder ?? ''"
+                    [autocomplete]="field.autocomplete ?? null"
+                    [readonly]="field.isReadOnly ?? false"
+                  />
+                }
+              }
+            }
+
+          </mat-form-field>
+          @if (showFieldError(field)) {
+            @for (msg of fieldErrors(field); track msg) {
+              <p class="app-field-external-error" role="alert">{{ msg }}</p>
+            }
+          }
+        </div>
+      }
+    }
+  </div>
+</div>

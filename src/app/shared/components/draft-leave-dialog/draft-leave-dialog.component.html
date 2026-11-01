@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Leave merchant application?</h2>
+<mat-dialog-content>
+  @if (data.hasInput) {
+    <p class="mb-0">You have entered details that are not saved yet, or your last auto-save may still be in progress.</p>
+  } @else {
+    <p class="mb-0">You have not entered any application details yet.</p>
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Stay on page</button>
+  <button mat-button type="button" color="warn" (click)="discard()">Leave without saving</button>
+  @if (data.hasInput) {
+    <button mat-flat-button type="button" color="primary" (click)="save()">Save draft &amp; leave</button>
+  }
+</mat-dialog-actions>

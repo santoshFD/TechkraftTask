@@ -1,0 +1,45 @@
+@use 'styles/abstracts/mixins' as mixins;
+
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.app-form-field-cell {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+:host ::ng-deep .form-text-field.mat-mdc-form-field {
+  width: 100%;
+  margin: 0;
+  display: block;
+
+  @include mixins.material-outline-field-highlight('&');
+  @include mixins.material-outline-field-subscript;
+
+  .mat-mdc-text-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: 3.25rem;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+  }
+
+  .form-text-field__hint {
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  &.mat-form-field-invalid .form-text-field__hint {
+    display: none;
+  }
+}

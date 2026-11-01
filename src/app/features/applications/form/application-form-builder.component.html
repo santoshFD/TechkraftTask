@@ -1,0 +1,5 @@
+@if (stepForm(); as group) {
+  <div [formGroup]="group">
+    <dynamic-form [config]="config()" [showValidation]="showValidation()" />
+  </div>
+}

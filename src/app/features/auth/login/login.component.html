@@ -1,0 +1,88 @@
+<div class="auth-page">
+  <mat-card class="auth-card">
+    <div class="auth-card__layout">
+      <aside class="auth-card__hero" aria-hidden="false">
+        <div class="auth-card__hero-bg" role="img" aria-label="Merchant payments illustration"></div>
+        <div class="auth-card__hero-content">
+          <span class="auth-card__badge">Merchant platform</span>
+          <h2 class="auth-card__hero-title">Secure merchant onboarding</h2>
+          <p class="auth-card__hero-lead">Applications, review workflows, and payment readiness in one place.</p>
+          <ul class="auth-card__hero-list">
+            <li>Role-based access for sales and reviewers</li>
+            <li>Draft auto-save and guided submission</li>
+            <li>Masked sensitive fields in production-style UI</li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="auth-card__main">
+        <header class="auth-card__main-header">
+          <h1>Sign in</h1>
+          <p>Use your work email. Demo accounts share password <code>password</code>.</p>
+        </header>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form" novalidate>
+          <mat-form-field
+            appearance="outline"
+            class="auth-field"
+            subscriptSizing="dynamic"
+            [class.app-field--engaged]="email.touched || email.dirty"
+          >
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" autocomplete="username" />
+            @if (email.invalid && (email.dirty || email.touched || submitted())) {
+              <mat-error>
+                @if (email.hasError('required')) {
+                  Email is required.
+                } @else if (email.hasError('email')) {
+                  Enter a valid email address.
+                }
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="auth-field"
+            subscriptSizing="dynamic"
+            [class.app-field--engaged]="password.touched || password.dirty"
+          >
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" autocomplete="current-password" />
+            @if (password.invalid && (password.dirty || password.touched || submitted())) {
+              <mat-error>Password is required.</mat-error>
+            }
+          </mat-form-field>
+
+          @if (error()) {
+            <p class="auth-alert" role="alert">{{ error() }}</p>
+          }
+
+          <action-button variant="flat" color="primary" type="submit" class="auth-primary-btn" [loading]="loading()">
+            Sign in
+          </action-button>
+        </form>
+
+        <p class="auth-switch">
+          Don&apos;t have an account?
+          <a routerLink="/signup">Create one</a>
+        </p>
+
+        <div class="auth-demo">
+          <span class="auth-demo__label">Quick sign-in (demo)</span>
+          <div class="auth-demo__buttons">
+            <button mat-stroked-button type="button" class="auth-demo__chip" (click)="fill('sales@merchant.test')">
+              Sales
+            </button>
+            <button mat-stroked-button type="button" class="auth-demo__chip" (click)="fill('reviewer@merchant.test')">
+              Reviewer
+            </button>
+            <button mat-stroked-button type="button" class="auth-demo__chip" (click)="fill('admin@merchant.test')">
+              Admin
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </mat-card>
+</div>

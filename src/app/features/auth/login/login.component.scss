@@ -1,0 +1,12 @@
+@use '../auth-form' as auth;
+
+:host {
+  display: block;
+}
+
+@include auth.auth-card-shell();
+@include auth.auth-borderless-fields();
+
+:host ::ng-deep .auth-primary-btn .action-btn {
+  width: 100%;
+}

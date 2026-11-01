@@ -1,0 +1,74 @@
+@use '../../../../../styles/abstracts' as *;
+
+.status-overview-card {
+  background: #fff;
+  margin-bottom: space(4);
+}
+
+.status-tile {
+  border: 1px solid var(--app-border-subtle, #e2e8f0);
+  border-radius: radius(md);
+  background: #fff;
+  padding: space(3);
+  cursor: pointer;
+  transition: box-shadow $transition-base, transform $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-elevation-mid;
+    transform: translateY(-1px);
+  }
+
+  &--active {
+    outline: 2px solid color-mix(in srgb, #1565c0 40%, transparent);
+    box-shadow: $shadow-elevation-mid;
+  }
+
+  mat-icon {
+    opacity: 0.75;
+  }
+}
+
+.status-tile__value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.status-tile__label {
+  margin-top: 0.25rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.status-tile__hint {
+  margin-top: 0.15rem;
+  font-size: font-size(xs);
+  color: var(--app-text-muted, #64748b);
+}
+
+.tone-draft {
+  border-left: 4px solid application-status-color('DRAFT');
+
+  .status-tile__value,
+  mat-icon {
+    color: application-status-color('DRAFT');
+  }
+}
+
+.tone-pending {
+  border-left: 4px solid application-status-color('IN_REVIEW');
+
+  .status-tile__value,
+  mat-icon {
+    color: application-status-color('IN_REVIEW');
+  }
+}
+
+.tone-completed {
+  border-left: 4px solid application-status-color('APPROVED');
+
+  .status-tile__value,
+  mat-icon {
+    color: application-status-color('APPROVED');
+  }
+}
